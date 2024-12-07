@@ -1,5 +1,6 @@
 import 'package:chat_app/core/models/auth_form_data.dart';
 import 'package:chat_app/components/auth_form.dart';
+import 'package:chat_app/core/services/auth/auth_mock_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -15,11 +16,21 @@ class _AuthPageState extends State<AuthPage> {
   Future<void> _handleSubmit(AuthFormData formData) async {
     try {
       setState(() => _isLoading = true);
-      
+
       if (formData.isLogin) {
-        // Login
+        //login
+        await AuthMockService().login(
+          formData.email,
+          formData.password,
+        );
       } else {
         //signup
+        await AuthMockService().signup(
+          formData.name,
+          formData.email,
+          formData.password,
+          formData.image
+        );
       }
     } catch (error) {
       //Tratar erro!
@@ -32,24 +43,22 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Stack(
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              child: AuthForm(onSubmit: _handleSubmit),
+      body: Stack(children: [
+        Center(
+          child: SingleChildScrollView(
+            child: AuthForm(onSubmit: _handleSubmit),
+          ),
+        ),
+        if (_isLoading)
+          Container(
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(0, 0, 0, 0.5),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(),
             ),
           ),
-          if (_isLoading)
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.5),
-              ),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        ]
-      ),
+      ]),
     );
   }
 }
