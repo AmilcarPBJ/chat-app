@@ -102,7 +102,7 @@ class _AuthFormState extends State<AuthForm> {
                 ElevatedButton(
                   style: const ButtonStyle(
                       backgroundColor:
-                          WidgetStatePropertyAll(Colors.deepPurple),
+                          WidgetStatePropertyAll(Colors.blue),
                       foregroundColor: WidgetStatePropertyAll(Colors.white)),
                   onPressed: _submit,
                   child: Text(
